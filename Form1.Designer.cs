@@ -1,17 +1,16 @@
 ﻿
+using System;
+using System.Windows.Forms;
+using OpenGL;
+
 namespace AquriumProject2
 {
     partial class Form1
     {
-        /// <summary>
-        ///  Required designer variable.
-        /// </summary>
         private System.ComponentModel.IContainer components = null;
+        private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.Timer timerRUN;
 
-        /// <summary>
-        ///  Clean up any resources being used.
-        /// </summary>
-        /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
         protected override void Dispose(bool disposing)
         {
             if (disposing && (components != null))
@@ -21,21 +20,35 @@ namespace AquriumProject2
             base.Dispose(disposing);
         }
 
-        #region Windows Form Designer generated code
-
-        /// <summary>
-        ///  Required method for Designer support - do not modify
-        ///  the contents of this method with the code editor.
-        /// </summary>
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
-            this.Text = "Form1";
-        }
+            this.panel1 = new System.Windows.Forms.Panel();
+            this.timerRUN = new System.Windows.Forms.Timer(this.components);
+            this.SuspendLayout();
 
-        #endregion
+            // panel1
+            this.panel1.Location = new System.Drawing.Point(12, 16);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(500, 500);
+            this.panel1.TabIndex = 6;
+            this.panel1.Paint += new System.Windows.Forms.PaintEventHandler(this.panel1_Paint);
+            this.panel1.Resize += new System.EventHandler(this.panel1_Resize);
+
+            // timerRUN
+            this.timerRUN.Interval = 30;
+            this.timerRUN.Tick += new System.EventHandler(this.timerRUN_Tick);
+
+            // Form1
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.ClientSize = new System.Drawing.Size(540, 540);
+            this.Controls.Add(this.panel1);
+            this.Name = "Form1";
+            this.Text = "3D Fish Aquarium";
+            this.Load += new System.EventHandler(this.Form1_Load);
+            this.ResumeLayout(false);
+        }
     }
 }
 
