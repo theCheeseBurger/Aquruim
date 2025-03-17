@@ -16,6 +16,9 @@ namespace AquriumProject2
         private cOGL cGL;
         private bool isNight = true;
 
+        private int maxFishCount = 5; // ✅ Maximum number of fish
+        private int minFishCount = 0; // ✅ Minimum number of fish
+
         public Form1()
         {
             InitializeComponent();
@@ -23,9 +26,12 @@ namespace AquriumProject2
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            cGL = new cOGL(panel1); // Now initialized after panel1 is created
-            timerRUN.Interval = 30;
-            timerRUN.Start();
+            if (panel1 != null) // ✅ Ensure panel1 is created before initializing cGL
+            {
+                cGL = new cOGL(panel1); // ✅ Now initialized correctly
+                timerRUN.Interval = 30;
+                timerRUN.Start();
+            }
         }
 
         private void panel1_Paint(object sender, PaintEventArgs e)
@@ -44,6 +50,44 @@ namespace AquriumProject2
         {
             if (cGL != null)
                 cGL.Draw(); // Prevents null reference issues
+        }
+
+        private void fishSizeBar_Scroll(object sender, EventArgs e)
+        {
+            if (cGL != null)
+            {
+                float scale = fishSizeBar.Value / 10.0f; // Normalize scale
+                cGL.SetFishScale(scale);
+                panel1.Invalidate(); // ✅ Redraw scene
+            }
+        }
+
+        private void btnAddFish_Click(object sender, EventArgs e)
+        {
+            if (cGL != null && cGL.FishCount < maxFishCount)
+            {
+                cGL.AddFish(); // ✅ Adds a fish to the aquarium
+                panel1.Invalidate(); // ✅ Redraw the scene
+            }
+        }
+
+        private void btnRemoveFish_Click(object sender, EventArgs e)
+        {
+            if (cGL != null && cGL.FishCount > minFishCount)
+            {
+                cGL.RemoveFish(); // ✅ Removes a fish from the aquarium
+                panel1.Invalidate(); // ✅ Redraw the scene
+            }
+        }
+
+        private void fishRotationBar_Scroll(object sender, EventArgs e)
+        {
+            if (cGL != null)
+            {
+                float angle = fishRotationBar.Value; // ✅ Get rotation value from slider
+                cGL.SetFishRotation(angle); // ✅ Update fish rotation
+                panel1.Invalidate(); // ✅ Redraw the OpenGL scene
+            }
         }
     }
 }
