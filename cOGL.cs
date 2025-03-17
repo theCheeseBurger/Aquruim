@@ -112,12 +112,12 @@ namespace AquriumProject2
             GL.glLoadIdentity();
             GLU.gluLookAt(0, 0, 3, 0, 0, 0, 0, 1, 0);
 
-            UpdateFishes();
             DrawAquarium();
             DrawTreasureChest();
             DrawSpongeBobHouse();
             DrawBubbles();
             DrawFishes();
+            UpdateFishes();
 
             GL.glFlush();
             WGL.wglSwapBuffers(DC);
@@ -553,26 +553,6 @@ namespace AquriumProject2
                 GL.glEnd();
             }
         }
-        private void DrawFin(float width, float height, float zOffset)
-        {
-            GL.glPushMatrix();
-            if (RotationAngle >= 90 && RotationAngle <= 270)
-            {
-                GL.glTranslatef(-0.05f, height, zOffset);  // עין בצד השני כשהדג מסתובב
-            }
-            else
-            {
-                GL.glTranslatef(0.05f, height, zOffset);   // עין בצד הראשי
-            }
-            GL.glBegin(GL.GL_TRIANGLES);
-
-            GL.glVertex3f(0.0f, 0.03f, 0.0f);
-            GL.glVertex3f(-width, 0.0f, -0.03f);
-            GL.glVertex3f(-width, 0.0f, 0.03f);
-
-            GL.glEnd();
-            GL.glPopMatrix();
-        }
 
         private void DrawGradientOvalSphere(float radiusX, float radiusY, float radiusZ, int slices, int stacks)
         {
@@ -629,60 +609,12 @@ namespace AquriumProject2
     class Bubble
     {
         public float X, Y, Z;
-        private Random rand = new Random();
 
         public Bubble(float x, float y, float z)
         {
             X = x;
             Y = y;
             Z = z;
-        }
-
-        public void Rise()
-        {
-            Y += 0.01f; // Make the bubble rise
-
-            // Reset bubble position if it goes too high
-            if (Y > 1.0f)
-            {
-                Y = -1.0f;
-                X = (float)(rand.NextDouble() * 1.5f - 0.75f);
-                Z = (float)(rand.NextDouble() * 1.5f - 1.5f);
-            }
-        }
-
-        public void DrawBubble()
-        {
-            GL.glPushMatrix();
-            GL.glTranslatef(X, Y, Z);
-            GL.glColor3f(0.8f, 0.9f, 1.0f); // Light blue
-            DrawSphere(0.02f, 8, 8);
-            GL.glPopMatrix();
-        }
-
-        private void DrawSphere(float radius, int slices, int stacks)
-        {
-            float x, y, z;
-            float alpha, beta;
-
-            for (int i = 0; i < stacks; i++)
-            {
-                alpha = (float)(Math.PI * i / stacks);
-                beta = (float)(Math.PI * (i + 1) / stacks);
-
-                GL.glBegin(GL.GL_TRIANGLE_STRIP);
-                for (int j = 0; j <= slices; j++)
-                {
-                    float theta = (float)(2.0 * Math.PI * j / slices);
-
-                    x = (float)(Math.Cos(theta) * Math.Sin(alpha));
-                    y = (float)(Math.Sin(theta) * Math.Sin(alpha));
-                    z = (float)(Math.Cos(alpha));
-
-                    GL.glVertex3f(x * radius, y * radius, z * radius);
-                }
-                GL.glEnd();
-            }
         }
     }
 }
